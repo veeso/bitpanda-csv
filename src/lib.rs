@@ -35,9 +35,14 @@ extern crate log;
 #[macro_use]
 extern crate serde;
 
+#[cfg(feature = "mock")]
+pub(crate) mod mock;
+
 mod parser;
 mod trade;
 
+#[cfg(feature = "mock")]
+pub use mock::TradeGenerator;
 pub use parser::BitpandaTradeParser;
 pub use trade::{
     Asset, AssetClass, CryptoCurrency, CsvOption, Currency, Fiat, InOut, Metal, Trade,

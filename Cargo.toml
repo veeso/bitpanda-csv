@@ -1,6 +1,6 @@
 [package]
 name = "bitpanda-csv"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Christian Visintin <christian.visintin1997@gmail.com>"]
 edition = "2021"
 categories = ["parser-implementations", "parsing"]
@@ -18,9 +18,15 @@ chrono = { version = "^0.4", features = [ "serde" ] }
 csv = "^1.1"
 log = "^0.4"
 rust_decimal = "^1.26"
+rust_decimal_macros = { version = "^1.26", optional = true }
 serde = { version = "^1.0", features = [ "derive" ] }
 tempfile = "^3.3"
+uuid = { version = "^1.1", features = [ "v4" ], optional = true }
 
 [dev-dependencies]
 pretty_assertions = "^1.2.1"
 rust_decimal_macros = "^1.26"
+
+[features]
+default = []
+mock = [ "uuid", "rust_decimal_macros" ]
