@@ -20,9 +20,8 @@ pub use crypto::CryptoCurrency;
 pub use currency::Currency;
 pub use fiat::Fiat;
 pub use in_out::InOut;
+pub use option::CsvOption;
 pub use transaction_type::TransactionType;
-
-use option::CsvOption;
 
 /// Defines a single `Trade` made on Bitpanda exchange
 #[derive(Debug, Deserialize, Clone, Eq, PartialEq, Hash)]

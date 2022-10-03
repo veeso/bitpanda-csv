@@ -40,5 +40,6 @@ mod trade;
 
 pub use parser::BitpandaTradeParser;
 pub use trade::{
-    Asset, AssetClass, CryptoCurrency, Currency, Fiat, InOut, Metal, Trade, TransactionType,
+    Asset, AssetClass, CryptoCurrency, CsvOption, Currency, Fiat, InOut, Metal, Trade,
+    TransactionType,
 };
