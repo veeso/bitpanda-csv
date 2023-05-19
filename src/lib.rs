@@ -7,7 +7,7 @@
 //! ### Add bitpanda-csv to your Cargo.toml 🦀
 //!
 //! ```toml
-//! bitpanda-csv = "^0.1.0"
+//! bitpanda-csv = "^0.2"
 //! ```
 //!
 //! Supported features are:
@@ -27,6 +27,25 @@
 //! }
 //! ```
 //!
+//! ### Parse CSV (async)
+//!
+//! Add to your Cargo.toml the `async` feature.
+//! If you don't need the sync stuff, you can disable the default features then.
+//!
+//! ```rust
+//! use bitpanda_csv::{AsyncBitpandaTradeParser, Trade};
+//! use tokio::fs::File;
+//! use tokio::io::BufReader;
+//!
+//! #[tokio::main]
+//! async fn main() {
+//!     let file = File::open("./test/bitpanda.csv").await.expect("could not open CSV file");
+//!     let trades = AsyncBitpandaTradeParser::parse(BufReader::new(file))
+//!         .await
+//!         .unwrap();
+//! }
+//! ```
+//!
 
 #![doc(html_playground_url = "https://play.rust-lang.org")]
 
@@ -35,14 +54,21 @@ extern crate log;
 #[macro_use]
 extern crate serde;
 
+#[cfg(feature = "async")]
+mod async_parser;
 #[cfg(feature = "mock")]
 pub(crate) mod mock;
 
+#[cfg(feature = "sync")]
 mod parser;
 mod trade;
 
 #[cfg(feature = "mock")]
 pub use mock::TradeGenerator;
+
+#[cfg(feature = "async")]
+pub use async_parser::AsyncBitpandaTradeParser;
+#[cfg(feature = "sync")]
 pub use parser::BitpandaTradeParser;
 pub use trade::{
     Asset, AssetClass, CryptoCurrency, CsvOption, Currency, Fiat, InOut, Metal, Trade,

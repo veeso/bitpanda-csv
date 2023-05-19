@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">Developed by <a href="https://veeso.github.io/" target="_blank">@veeso</a></p>
-<p align="center">Current version: 0.1.2 (03/10/2022)</p>
+<p align="center">Current version: 0.2.0 (19/05/2023)</p>
 
 <p align="center">
   <a href="https://opensource.org/licenses/MIT"
@@ -62,6 +62,7 @@
   - [Get started 🏁](#get-started-)
     - [Add bitpanda-csv to your Cargo.toml 🦀](#add-bitpanda-csv-to-your-cargotoml-)
     - [Parse CSV](#parse-csv)
+    - [Parser CSV (async)](#parser-csv-async)
   - [Documentation 📚](#documentation-)
   - [Support the developer ☕](#support-the-developer-)
   - [Contributing and issues 🤝🏻](#contributing-and-issues-)
@@ -81,7 +82,7 @@ bitpanda-csv is a Rust library to parse the Bitpanda trades exported as CSV from
 ### Add bitpanda-csv to your Cargo.toml 🦀
 
 ```toml
-bitpanda-csv = "^0.1.0"
+bitpanda-csv = "^0.2"
 ```
 
 ### Parse CSV
@@ -93,6 +94,25 @@ use std::fs::File;
 fn main() {
     let reader = File::open("./test/bitpanda.csv").expect("could not open CSV file");
     let trades: Vec<Trade> = BitpandaTradeParser::parse(reader).expect("failed to parse CSV");
+}
+```
+
+### Parser CSV (async)
+
+Add to your Cargo.toml the `async` feature.
+If you don't need the sync stuff, you can disable the default features then.
+
+```rust
+use bitpanda_csv::{AsyncBitpandaTradeParser, Trade};
+use tokio::fs::File;
+use tokio::io::BufReader;
+
+#[tokio::main]
+async fn main() {
+    let file = File::open("./test/bitpanda.csv").await.expect("could not open CSV file");
+    let trades = AsyncBitpandaTradeParser::parse(BufReader::new(file))
+        .await
+        .unwrap();
 }
 ```
 
@@ -113,7 +133,6 @@ You can make a donation with one of these platforms:
 [![ko-fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/veeso)
 [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.me/chrisintin)
 [![bitcoin](https://img.shields.io/badge/Bitcoin-ff9416?style=for-the-badge&logo=bitcoin&logoColor=white)](https://btc.com/bc1qvlmykjn7htz0vuprmjrlkwtv9m9pan6kylsr8w)
-[![litecoin](https://img.shields.io/badge/Litecoin-345d9d?style=for-the-badge&logo=Litecoin&logoColor=white)](https://blockchair.com/litecoin/address/ltc1q89a7f859gt7nuekvnuuc25wapkq2f8ny78mp8l)
 
 ---
 

@@ -15,18 +15,24 @@ repository = "https://github.com/veeso/bitpanda-csv"
 
 [dependencies]
 chrono = { version = "^0.4", features = [ "serde" ] }
-csv = "^1.1"
+csv = { version = "^1.1", optional = true }
+csv-async = { version = "^1.2", optional = true, features = [ "tokio" ] }
+futures =  { version = "^0.3", optional = true }
 log = "^0.4"
 rust_decimal = "^1.26"
 rust_decimal_macros = { version = "^1.26", optional = true }
 serde = { version = "^1.0", features = [ "derive" ] }
 tempfile = "^3.3"
+tokio = { version = "1.28", optional = true, features = [ "io-std", "io-util" ], default-features = false }
 uuid = { version = "^1.1", features = [ "v4" ], optional = true }
 
 [dev-dependencies]
 pretty_assertions = "^1.2.1"
 rust_decimal_macros = "^1.26"
+tokio = { version = "1.28", features = [ "full" ] }
 
 [features]
-default = []
+default = [ "sync" ]
+async = [ "csv-async", "futures", "tokio" ]
 mock = [ "uuid", "rust_decimal_macros" ]
+sync = [ "csv" ]
