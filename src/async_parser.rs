@@ -17,7 +17,7 @@ pub struct AsyncBitpandaTradeParser;
 
 impl AsyncBitpandaTradeParser {
     /// Parse CSV from file at path after sanitizing it
-    pub async fn parse(reader: impl AsyncBufReadExt + Unpin) -> csv::Result<Vec<Trade>> {
+    pub async fn parse(reader: impl AsyncBufReadExt + Unpin) -> csv_async::Result<Vec<Trade>> {
         debug!("parsing CSV...");
         let sanitized_csv = Self::sanitize_csv(reader).await?;
         debug!("parsing CSV data from {}", sanitized_csv.path().display());
@@ -37,7 +37,9 @@ impl AsyncBitpandaTradeParser {
     }
 
     /// Sanitize the trades csv keeping only the lines after the columns headers
-    async fn sanitize_csv(reader: impl AsyncBufReadExt + Unpin) -> csv::Result<NamedTempFile> {
+    async fn sanitize_csv(
+        reader: impl AsyncBufReadExt + Unpin,
+    ) -> csv_async::Result<NamedTempFile> {
         // open tempfile
         debug!("opening tempfile");
         let work_file = NamedTempFile::new()?;
